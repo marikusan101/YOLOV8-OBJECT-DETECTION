@@ -1,4 +1,3 @@
-
 import streamlit as st
 from ultralytics import YOLO
 from PIL import Image
@@ -43,16 +42,16 @@ st.write("Upload an image to detect 'car' objects using a trained YOLOv8n model.
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
-    # Display the uploaded image
-    st.image(uploaded_file, caption="Uploaded Image", use_column_width=True)
-    st.write("")
-    st.write("Detecting objects...")
-
-    # Load image for inference
+    # Load image for display AND inference
     image_bytes = uploaded_file.getvalue()
     image = Image.open(io.BytesIO(image_bytes))
 
-    # Perform inference
+    # Display the uploaded image - FIX 1
+    st.image(image, caption="Uploaded Image", use_container_width=True)
+    st.write("")
+    st.write("Detecting objects...")
+
+    # Perform inference - YOLO direct PIL image le leta hai
     results = model(image)
 
     # Process and display results
@@ -61,7 +60,7 @@ if uploaded_file is not None:
         im_array = r.plot()
         # Convert BGR to RGB for PIL and Streamlit
         processed_image = Image.fromarray(im_array[..., ::-1])
-        st.image(processed_image, caption="Detected Objects", use_column_width=True)
+        st.image(processed_image, caption="Detected Objects", use_container_width=True) # FIX 2
 
         # Optional: display detected objects and their confidence
         st.subheader("Detected Objects Summary")
@@ -78,7 +77,7 @@ if uploaded_file is not None:
 st.markdown("""
 ---
 ### Deployment Instructions:
-1.  **Save these files:** Ensure `app.py`, `best.pt`, `data.yaml`, and `requirements.txt` are in the same folder (`Deployment/`).
-2.  **Create a GitHub Repository:** Push the `Deployment/` folder and its contents to a new public GitHub repository.
-3.  **Deploy on Streamlit Cloud:** Go to [Streamlit Cloud](https://share.streamlit.io/) and select \"New app\". Connect your GitHub repository and choose the `app.py` file within your `Deployment` folder as the main file.
+1. **Save these files:** Ensure `app.py`, `best.pt`, `data.yaml`, and `requirements.txt` are in the same folder (`Deployment/`).
+2. **Create a GitHub Repository:** Push the `Deployment/` folder and its contents to a new public GitHub repository.
+3. **Deploy on Streamlit Cloud:** Go to [Streamlit Cloud](https://share.streamlit.io/) and select \"New app\". Connect your GitHub repository and choose the `app.py` file within your `Deployment` folder as the main file.
 """)
