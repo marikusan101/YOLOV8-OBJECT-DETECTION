@@ -4,3 +4,6 @@ ultralytics
 opencv-python
 pillow
 PyYAML
+opencv-python-headless
+numpy
+torch
