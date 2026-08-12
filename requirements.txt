@@ -3,7 +3,7 @@ streamlit
 ultralytics
 opencv-python
 pillow
-PyYAML
+Pyyaml
 opencv-python-headless
 numpy
 torch
